@@ -1,13 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Website Builder - Créateur de Sites Vitrine
 
-## Getting Started
+Une application web moderne permettant de créer facilement des sites internet vitrine avec une interface drag & drop intuitive.
 
-First, run the development server:
+## 🚀 Fonctionnalités Principales
 
-```bash
-npm run dev
-# or
-yarn dev
+- **Interface Drag & Drop** : Glissez-déposez des composants pour construire votre site
+- **Composants Pré-construits** : Header, Hero, Services, Portfolio, Contact, Footer...
+- **Prévisualisation en Temps Réel** : Voyez vos modifications instantanément
+- **Éditeur de Propriétés** : Personnalisez chaque composant facilement
+- **Templates Prêts à l'Emploi** : Modèles pour différents types d'activités
+- **Export HTML/CSS** : Téléchargez votre site généré
+- **Thèmes Personnalisables** : Couleurs, polices et styles modulables
+
+## 🛠 Technologies Utilisées
+
+- **Framework** : Next.js 14+ avec App Router
+- **Langage** : TypeScript
+- **UI/UX** : Tailwind CSS + Headless UI
+- **Drag & Drop** : @dnd-kit/core
+- **Icônes** : Lucide React
+- **Gestion d'État** : Zustand
+- **Validation** : Zod
+
+## 🚀 Installation et Lancement
+
+1. **Installer les dépendances**
+   ```bash
+   npm install
 # or
 pnpm dev
 # or
