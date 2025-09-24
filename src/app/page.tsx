@@ -7,7 +7,7 @@ import { PropertyPanel } from '@/components/builder/PropertyPanel'
 
 export default function Home() {
   return (
-    <div className="h-screen flex flex-col bg-gray-50">
+    <div className="h-screen flex flex-col bg-gradient-to-br from-slate-100 via-purple-50 to-blue-100">
       {/* Barre d'outils principale */}
       <BuilderToolbar />
       

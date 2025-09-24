@@ -18,9 +18,9 @@ export function PropertyPanel() {
 
   if (!selectedComponent) {
     return (
-      <div className="w-80 bg-white border-l border-gray-200 p-4">
-        <div className="text-center text-gray-500 mt-8">
-          <Settings className="h-8 w-8 mx-auto mb-2 text-gray-400" />
+      <div className="w-80 bg-gradient-to-b from-white to-purple-50 border-l border-purple-200 p-4 backdrop-blur-sm">
+        <div className="text-center text-purple-600 mt-8">
+          <Settings className="h-8 w-8 mx-auto mb-2 text-purple-400" />
           <p className="text-sm">Sélectionnez un composant pour modifier ses propriétés</p>
         </div>
       </div>
@@ -132,7 +132,7 @@ export function PropertyPanel() {
                 id="imagePosition"
                 value={props.imagePosition || 'right'}
                 onChange={(e) => handlePropertyChange('imagePosition', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                className="w-full px-3 py-2 border border-purple-200 bg-white text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 hover:border-purple-300 transition-colors"
               >
                 <option value="left">Gauche</option>
                 <option value="right">Droite</option>
@@ -203,13 +203,13 @@ export function PropertyPanel() {
   }
 
   return (
-    <div className="w-80 bg-white border-l border-gray-200 p-4 overflow-y-auto">
-      <Card>
-        <CardHeader className="pb-3">
+    <div className="w-80 bg-gradient-to-b from-white to-purple-50 border-l border-purple-200 p-4 overflow-y-auto backdrop-blur-sm">
+      <Card className="bg-gradient-to-br from-white to-purple-25 border-purple-200 shadow-lg">
+        <CardHeader className="pb-3 bg-gradient-to-r from-purple-100 to-blue-100 rounded-t-lg">
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="text-lg">Propriétés</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-lg text-purple-800">Propriétés</CardTitle>
+              <CardDescription className="text-purple-600">
                 {selectedComponent.type.charAt(0).toUpperCase() + selectedComponent.type.slice(1)}
               </CardDescription>
             </div>
@@ -217,7 +217,7 @@ export function PropertyPanel() {
               variant="outline"
               size="sm"
               onClick={handleDelete}
-              className="text-red-600 hover:text-red-700"
+              className="text-red-600 hover:text-red-700 border-red-200 hover:border-red-300 hover:bg-red-50"
             >
               <Trash2 className="h-4 w-4" />
             </Button>
@@ -236,7 +236,7 @@ export function PropertyPanel() {
 function Input({ className, ...props }: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
-      className={`flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
+      className={`flex h-10 w-full rounded-md border border-purple-200 bg-white text-gray-900 px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-purple-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 focus-visible:border-purple-500 hover:border-purple-300 transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
       {...props}
     />
   )
@@ -245,7 +245,7 @@ function Input({ className, ...props }: React.InputHTMLAttributes<HTMLInputEleme
 function Label({ className, ...props }: React.LabelHTMLAttributes<HTMLLabelElement>) {
   return (
     <label
-      className={`text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ${className}`}
+      className={`text-sm font-medium leading-none text-purple-700 peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ${className}`}
       {...props}
     />
   )
@@ -254,7 +254,7 @@ function Label({ className, ...props }: React.LabelHTMLAttributes<HTMLLabelEleme
 function Textarea({ className, ...props }: React.TextareaHTMLAttributes<HTMLTextAreaElement>) {
   return (
     <textarea
-      className={`flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
+      className={`flex min-h-[80px] w-full rounded-md border border-purple-200 bg-white text-gray-900 px-3 py-2 text-sm ring-offset-background placeholder:text-purple-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 focus-visible:border-purple-500 hover:border-purple-300 transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
       {...props}
     />
   )

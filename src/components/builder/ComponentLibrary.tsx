@@ -38,19 +38,19 @@ export function ComponentLibrary() {
   }
 
   return (
-    <div className="w-80 bg-white border-r border-gray-200 p-4 overflow-y-auto">
-      <h2 className="text-lg font-semibold mb-4">Composants</h2>
+    <div className="w-80 bg-gradient-to-b from-white to-purple-50 border-r border-purple-200 p-4 overflow-y-auto backdrop-blur-sm">
+      <h2 className="text-lg font-semibold mb-4 text-purple-800">Composants</h2>
       
       <div className="space-y-3">
         {componentLibrary.map((component) => {
           const IconComponent = iconMap[component.icon as keyof typeof iconMap] || Plus
           
           return (
-            <Card key={component.type} className="cursor-pointer hover:shadow-md transition-shadow">
+            <Card key={component.type} className="cursor-pointer hover:shadow-lg transition-all duration-200 bg-gradient-to-br from-purple-50 to-blue-50 border-purple-200 hover:border-purple-300">
               <CardContent className="p-4">
                 <div className="flex items-center space-x-3 mb-2">
                   <div className="flex-shrink-0">
-                    <IconComponent className="h-5 w-5 text-blue-600" />
+                    <IconComponent className="h-5 w-5 text-purple-600" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <CardTitle className="text-sm font-medium text-gray-900">
