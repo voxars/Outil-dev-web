@@ -46,9 +46,6 @@ out/
 dist/
 build/
 
-# GitHub specific (if you want to ignore .github folder)
-# .github/
-
 # IDE and editor files
 .vscode/
 .idea/

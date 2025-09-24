@@ -1,4 +1,4 @@
-<!-- Instructions Copilot pour l'outil de création de sites vitrine -->
+<!-- Instructions Copilot pour l'utilisation des agents GitHub -->
 
 # Projet : Outil de Développement Web - Créateur de Sites Vitrine
 
