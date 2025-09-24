@@ -1,6 +1,11 @@
 # Website Builder - Créateur de Sites Vitrine
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Open Source](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://opensource.org/)
+
 Une application web moderne permettant de créer facilement des sites internet vitrine avec une interface drag & drop intuitive.
+
+> 🎉 **Projet Open Source** - Libre d'utilisation, modification et distribution !
 
 ## 🚀 Fonctionnalités Principales
 
@@ -24,32 +29,179 @@ Une application web moderne permettant de créer facilement des sites internet v
 
 ## 🚀 Installation et Lancement
 
-1. **Installer les dépendances**
+### Prérequis
+- Node.js 18+ 
+- npm ou yarn
+- Git
+
+### Installation
+
+1. **Cloner le projet**
+   ```bash
+   git clone https://github.com/voxars/Outil-dev-web
+   cd website-builder
+   ```
+
+2. **Installer les dépendances**
    ```bash
    npm install
-# or
-pnpm dev
-# or
-bun dev
+   ```
+
+3. **Lancer le serveur de développement**
+   ```bash
+   npm run dev
+   ```
+
+4. **Ouvrir dans le navigateur**
+   ```
+   http://localhost:3000
+   ```
+
+### Commandes disponibles
+
+```bash
+# Développement
+npm run dev          # Lance le serveur de développement
+
+# Production  
+npm run build        # Compile l'application
+npm run start        # Lance l'application compilée
+
+# Qualité du code
+npm run lint         # Vérifie le code avec ESLint
+npm run type-check   # Vérifie les types TypeScript
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Structure du projet
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/
+├── app/              # App Router Next.js
+├── components/       # Composants réutilisables
+│   ├── ui/          # Composants UI de base
+│   ├── builder/     # Composants de l'éditeur
+│   └── website/     # Composants de site vitrine
+├── lib/             # Utilitaires et configuration
+├── hooks/           # Hooks React personnalisés
+├── types/           # Types TypeScript
+├── store/           # Store Zustand
+└── data/           # Templates et données par défaut
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🎯 Utilisation
 
-## Learn More
+1. **Ajout de composants** : Utilisez la bibliothèque de composants à gauche
+2. **Édition** : Cliquez sur un composant pour le sélectionner et modifier ses propriétés
+3. **Prévisualisation** : Basculez en mode aperçu pour voir le rendu final
+4. **Export** : Générez et téléchargez votre site web
 
-To learn more about Next.js, take a look at the following resources:
+## 🎨 Composants Disponibles
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Header** : Navigation principale avec logo
+- **Hero** : Section d'accueil avec titre et CTA
+- **About** : Section de présentation
+- **Services** : Grille de services/prestations
+- **Portfolio** : Galerie de réalisations
+- **Testimonials** : Témoignages clients
+- **Contact** : Formulaire et informations de contact
+- **Footer** : Pied de page avec liens et mentions
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🔧 Personnalisation
 
-## Deploy on Vercel
+### Modifier les couleurs de l'interface
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **Couleurs globales** : Éditez `tailwind.config.ts`
+2. **Composants UI** : Modifiez `src/components/ui/`
+3. **Interface builder** : Personnalisez `src/components/builder/`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Ajouter un nouveau composant
+
+1. Définir le type dans `src/types/index.ts`
+2. Ajouter les propriétés par défaut dans `src/data/templates.ts`
+3. Implémenter le rendu dans `src/components/website/ComponentRenderer.tsx`
+4. Ajouter l'éditeur de propriétés dans `src/components/builder/PropertyPanel.tsx`
+
+### Créer un nouveau template
+
+1. Définir la structure dans `src/data/templates.ts`
+2. Configurer le thème et les composants
+3. Ajouter l'aperçu et la description
+
+## 🚀 Déploiement
+
+### Vercel (Recommandé)
+```bash
+npm run build
+# Puis déployez sur Vercel
+```
+
+### Netlify
+```bash
+npm run build
+# Puis déployez le dossier 'out'
+```
+
+### Docker
+```dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+EXPOSE 3000
+CMD ["npm", "start"]
+```
+
+## 🐛 Dépannage
+
+### Erreurs courantes
+
+**Port déjà utilisé**
+```bash
+# Changer le port
+npm run dev -- -p 3001
+```
+
+**Erreurs de compilation TypeScript**
+```bash
+# Vérifier les types
+npm run type-check
+```
+
+**Problèmes de cache**
+```bash
+# Nettoyer le cache Next.js
+rm -rf .next
+npm run dev
+```
+
+## 🤝 Contribution
+
+Les contributions sont les bienvenues ! 
+
+1. Fork le projet
+2. Créer une branche : `git checkout -b feature/nouvelle-fonctionnalite`
+3. Commit : `git commit -m 'Ajout nouvelle fonctionnalité'`
+4. Push : `git push origin feature/nouvelle-fonctionnalite`
+5. Ouvrir une Pull Request
+
+## 📄 Licence
+
+Ce projet est sous **licence MIT** - voir le fichier [LICENSE](LICENSE) pour plus de détails.
+
+### Qu'est-ce que cela signifie ?
+✅ **Utilisation commerciale** - Vous pouvez l'utiliser dans vos projets commerciaux  
+✅ **Modification** - Vous pouvez modifier le code comme vous le souhaitez  
+✅ **Distribution** - Vous pouvez partager et redistribuer  
+✅ **Usage privé** - Vous pouvez l'utiliser dans vos projets privés  
+✅ **Pas de garantie** - Le logiciel est fourni "tel quel"
+
+## 📞 Support
+
+- 🐛 **Issues** : [GitHub Issues](https://github.com/voxars/Outil-dev-web/issues)
+- 📧 **Email** : voxarsa@gmail.com
+---
+
+**Développé avec ❤️ pour simplifier la création de sites web**
+
