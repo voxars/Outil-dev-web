@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
-import { WebsiteComponent, WebsiteTheme, ComponentType } from '@/types'
+import { WebsiteComponent, WebsiteTheme } from '@/types'
 import { generateId } from '@/lib/utils'
 
 interface BuilderState {
@@ -50,7 +50,7 @@ const defaultTheme: WebsiteTheme = {
 
 export const useBuilderStore = create<BuilderState>()(
   devtools(
-    (set, get) => ({
+    (set) => ({
       components: [],
       selectedComponentId: null,
       theme: defaultTheme,

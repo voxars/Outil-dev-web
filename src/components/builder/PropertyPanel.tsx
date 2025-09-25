@@ -3,7 +3,10 @@
 import { useBuilderStore } from '@/store/builder'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Trash2, Settings } from 'lucide-react'
+import { ColorPicker } from '@/components/ui/ColorPicker'
+import { AnimationPicker } from '@/components/ui/AnimationPicker'
+import { GridPicker } from '@/components/ui/GridContainer'
+import { Trash2, Settings, Palette, Play } from 'lucide-react'
 
 export function PropertyPanel() {
   const { 
@@ -36,9 +39,65 @@ export function PropertyPanel() {
     })
   }
 
+  const handleStyleChange = (key: string, value: unknown) => {
+    updateComponent(selectedComponent.id, {
+      styles: {
+        ...selectedComponent.styles,
+        [key]: value
+      }
+    })
+  }
+
+  const handleAnimationChange = (animation: {type: string, duration: number, delay: number, easing: string}) => {
+    updateComponent(selectedComponent.id, {
+      styles: {
+        ...selectedComponent.styles,
+        animation
+      }
+    })
+  }
+
   const handleDelete = () => {
     deleteComponent(selectedComponent.id)
     selectComponent(null)
+  }
+
+  const renderStyleControls = () => {
+    const styles = selectedComponent.styles || {}
+    const animation = styles.animation || { type: 'none', duration: 300, delay: 0, easing: 'ease-out' }
+
+    return (
+      <div className="border-t pt-4 mt-4 space-y-4">
+        <h4 className="font-medium text-gray-900 flex items-center space-x-2">
+          <Palette className="w-4 h-4" />
+          <span>Style et Couleurs</span>
+        </h4>
+        
+        <div className="grid grid-cols-2 gap-4">
+          <ColorPicker
+            label="Couleur de fond"
+            value={styles.backgroundColor || '#FFFFFF'}
+            onChange={(color) => handleStyleChange('backgroundColor', color)}
+          />
+          <ColorPicker
+            label="Couleur du texte"
+            value={styles.textColor || '#000000'}
+            onChange={(color) => handleStyleChange('textColor', color)}
+          />
+        </div>
+
+        <h4 className="font-medium text-gray-900 flex items-center space-x-2">
+          <Play className="w-4 h-4" />
+          <span>Animations</span>
+        </h4>
+        
+        <AnimationPicker
+          label="Animation d'entrée"
+          value={animation}
+          onChange={handleAnimationChange}
+        />
+      </div>
+    )
   }
 
   const renderPropertyFields = () => {
@@ -52,7 +111,7 @@ export function PropertyPanel() {
               <Label htmlFor="title">Titre</Label>
               <Input
                 id="title"
-                value={props.title || ''}
+                value={(props.title as string) || ''}
                 onChange={(e) => handlePropertyChange('title', e.target.value)}
                 placeholder="Nom du site"
               />
@@ -62,11 +121,13 @@ export function PropertyPanel() {
               <input
                 id="showLogo"
                 type="checkbox"
-                checked={props.showLogo || false}
+                checked={(props.showLogo as boolean) || false}
                 onChange={(e) => handlePropertyChange('showLogo', e.target.checked)}
                 className="ml-2"
               />
             </div>
+            {renderStyleControls()}
+            {renderStyleControls()}
           </div>
         )
 
@@ -77,7 +138,7 @@ export function PropertyPanel() {
               <Label htmlFor="title">Titre principal</Label>
               <Input
                 id="title"
-                value={props.title || ''}
+                value={(props.title as string) || ''}
                 onChange={(e) => handlePropertyChange('title', e.target.value)}
                 placeholder="Titre accrocheur"
               />
@@ -86,7 +147,7 @@ export function PropertyPanel() {
               <Label htmlFor="subtitle">Sous-titre</Label>
               <Textarea
                 id="subtitle"
-                value={props.subtitle || ''}
+                value={(props.subtitle as string) || ''}
                 onChange={(e) => handlePropertyChange('subtitle', e.target.value)}
                 placeholder="Description captivante"
                 rows={3}
@@ -96,11 +157,12 @@ export function PropertyPanel() {
               <Label htmlFor="buttonText">Texte du bouton</Label>
               <Input
                 id="buttonText"
-                value={props.buttonText || ''}
+                value={(props.buttonText as string) || ''}
                 onChange={(e) => handlePropertyChange('buttonText', e.target.value)}
                 placeholder="En savoir plus"
               />
             </div>
+            {renderStyleControls()}
           </div>
         )
 
@@ -111,7 +173,7 @@ export function PropertyPanel() {
               <Label htmlFor="title">Titre</Label>
               <Input
                 id="title"
-                value={props.title || ''}
+                value={(props.title as string) || ''}
                 onChange={(e) => handlePropertyChange('title', e.target.value)}
                 placeholder="À propos de nous"
               />
@@ -120,17 +182,17 @@ export function PropertyPanel() {
               <Label htmlFor="content">Contenu</Label>
               <Textarea
                 id="content"
-                value={props.content || ''}
+                value={(props.content as string) || ''}
                 onChange={(e) => handlePropertyChange('content', e.target.value)}
                 placeholder="Votre histoire..."
                 rows={5}
               />
             </div>
             <div>
-              <Label htmlFor="imagePosition">Position de l'image</Label>
+              <Label htmlFor="imagePosition">Position de l&apos;image</Label>
               <select
                 id="imagePosition"
-                value={props.imagePosition || 'right'}
+                value={(props.imagePosition as string) || 'right'}
                 onChange={(e) => handlePropertyChange('imagePosition', e.target.value)}
                 className="w-full px-3 py-2 border border-purple-200 bg-white text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 hover:border-purple-300 transition-colors"
               >
@@ -138,6 +200,7 @@ export function PropertyPanel() {
                 <option value="right">Droite</option>
               </select>
             </div>
+            {renderStyleControls()}
           </div>
         )
 
@@ -148,7 +211,7 @@ export function PropertyPanel() {
               <Label htmlFor="title">Titre</Label>
               <Input
                 id="title"
-                value={props.title || ''}
+                value={(props.title as string) || ''}
                 onChange={(e) => handlePropertyChange('title', e.target.value)}
                 placeholder="Contactez-nous"
               />
@@ -157,7 +220,7 @@ export function PropertyPanel() {
               <Label htmlFor="address">Adresse</Label>
               <Input
                 id="address"
-                value={props.address || ''}
+                value={(props.address as string) || ''}
                 onChange={(e) => handlePropertyChange('address', e.target.value)}
                 placeholder="123 Rue Example"
               />
@@ -166,7 +229,7 @@ export function PropertyPanel() {
               <Label htmlFor="phone">Téléphone</Label>
               <Input
                 id="phone"
-                value={props.phone || ''}
+                value={(props.phone as string) || ''}
                 onChange={(e) => handlePropertyChange('phone', e.target.value)}
                 placeholder="+33 1 23 45 67 89"
               />
@@ -175,7 +238,7 @@ export function PropertyPanel() {
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
-                value={props.email || ''}
+                value={(props.email as string) || ''}
                 onChange={(e) => handlePropertyChange('email', e.target.value)}
                 placeholder="contact@example.com"
               />
@@ -185,11 +248,88 @@ export function PropertyPanel() {
               <input
                 id="showForm"
                 type="checkbox"
-                checked={props.showForm || false}
+                checked={(props.showForm as boolean) || false}
                 onChange={(e) => handlePropertyChange('showForm', e.target.checked)}
                 className="ml-2"
               />
             </div>
+            {renderStyleControls()}
+          </div>
+        )
+
+      case 'grid':
+        return (
+          <div className="space-y-4">
+            <GridPicker
+              value={{
+                columns: (props.columns as number) || 2,
+                rows: (props.rows as number) || 1,
+                gap: (props.gap as string) || '4',
+                alignItems: (props.alignItems as 'start' | 'center' | 'end' | 'stretch') || 'start',
+                justifyContent: (props.justifyContent as 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly') || 'start'
+              }}
+              onChange={(settings) => {
+                handlePropertyChange('columns', settings.columns)
+                handlePropertyChange('rows', settings.rows)
+                handlePropertyChange('gap', settings.gap)
+                handlePropertyChange('alignItems', settings.alignItems)
+                handlePropertyChange('justifyContent', settings.justifyContent)
+              }}
+            />
+            {renderStyleControls()}
+          </div>
+        )
+
+      case 'container':
+        return (
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="padding">Espacement interne</Label>
+              <select
+                id="padding"
+                value={(props.padding as string) || '4'}
+                onChange={(e) => handlePropertyChange('padding', e.target.value)}
+                className="w-full px-3 py-2 border border-purple-200 bg-white text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 hover:border-purple-300 transition-colors"
+              >
+                <option value="0">Aucun</option>
+                <option value="2">Petit (8px)</option>
+                <option value="4">Moyen (16px)</option>
+                <option value="6">Grand (24px)</option>
+                <option value="8">Très grand (32px)</option>
+              </select>
+            </div>
+            <div>
+              <Label htmlFor="margin">Espacement externe</Label>
+              <select
+                id="margin"
+                value={(props.margin as string) || '2'}
+                onChange={(e) => handlePropertyChange('margin', e.target.value)}
+                className="w-full px-3 py-2 border border-purple-200 bg-white text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 hover:border-purple-300 transition-colors"
+              >
+                <option value="0">Aucun</option>
+                <option value="1">Petit (4px)</option>
+                <option value="2">Moyen (8px)</option>
+                <option value="4">Grand (16px)</option>
+                <option value="6">Très grand (24px)</option>
+              </select>
+            </div>
+            <div>
+              <Label htmlFor="maxWidth">Largeur maximale</Label>
+              <select
+                id="maxWidth"
+                value={(props.maxWidth as string) || 'full'}
+                onChange={(e) => handlePropertyChange('maxWidth', e.target.value)}
+                className="w-full px-3 py-2 border border-purple-200 bg-white text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 hover:border-purple-300 transition-colors"
+              >
+                <option value="sm">Petit (576px)</option>
+                <option value="md">Moyen (768px)</option>
+                <option value="lg">Grand (1024px)</option>
+                <option value="xl">Très grand (1280px)</option>
+                <option value="2xl">Extra grand (1536px)</option>
+                <option value="full">Pleine largeur</option>
+              </select>
+            </div>
+            {renderStyleControls()}
           </div>
         )
 
@@ -197,6 +337,7 @@ export function PropertyPanel() {
         return (
           <div className="text-center text-gray-500 text-sm">
             Propriétés pour {type} à venir
+            {renderStyleControls()}
           </div>
         )
     }
@@ -221,6 +362,7 @@ export function PropertyPanel() {
             >
               <Trash2 className="h-4 w-4" />
             </Button>
+            {renderStyleControls()}
           </div>
         </CardHeader>
         
