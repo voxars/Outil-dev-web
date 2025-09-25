@@ -34,6 +34,12 @@ export interface ComponentStyles {
   width?: string
   height?: string
   maxWidth?: string
+  animation?: {
+    type: string
+    duration: number
+    delay: number
+    easing: string
+  }
 }
 
 export interface WebsiteTemplate {

@@ -112,6 +112,30 @@ export const componentLibrary: Array<{
         { platform: 'linkedin', url: '#' }
       ]
     }
+  },
+  {
+    type: 'grid',
+    name: 'Grille',
+    description: 'Conteneur avec système de grille flexible',
+    icon: 'Grid3X3',
+    defaultProps: {
+      columns: 2,
+      rows: 1,
+      gap: '4',
+      alignItems: 'start',
+      justifyContent: 'start'
+    }
+  },
+  {
+    type: 'container',
+    name: 'Conteneur',
+    description: 'Conteneur simple pour grouper des éléments',
+    icon: 'Square',
+    defaultProps: {
+      padding: '4',
+      margin: '2',
+      maxWidth: 'full'
+    }
   }
 ]
 

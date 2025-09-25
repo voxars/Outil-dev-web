@@ -41,22 +41,68 @@ export function ComponentRenderer({
   isSelected = false,
   onClick 
 }: ComponentRendererProps) {
-  const { type, props, children } = component
+  const { type, props, styles, children } = component
+
+  // Application des styles personnalisés
+  const getCustomStyles = () => {
+    if (!styles) return {}
+    
+    return {
+      backgroundColor: styles.backgroundColor,
+      color: styles.textColor,
+      padding: styles.padding,
+      margin: styles.margin,
+      borderRadius: styles.borderRadius,
+      fontSize: styles.fontSize,
+      fontWeight: styles.fontWeight,
+      textAlign: styles.textAlign,
+      width: styles.width,
+      height: styles.height,
+      maxWidth: styles.maxWidth,
+      animationDuration: styles.animation?.duration ? `${styles.animation.duration}ms` : undefined,
+      animationDelay: styles.animation?.delay ? `${styles.animation.delay}ms` : undefined,
+    }
+  }
+
+  // Classes d'animation
+  const getAnimationClass = () => {
+    if (!styles?.animation || styles.animation.type === 'none') return ''
+    
+    const animationTypeMap: Record<string, string> = {
+      'fade-in': 'animate-fade-in',
+      'slide-up': 'animate-slide-up',
+      'slide-down': 'animate-slide-down',
+      'slide-left': 'animate-slide-left',
+      'slide-right': 'animate-slide-right',
+      'zoom-in': 'animate-zoom-in',
+      'bounce': 'animate-bounce',
+      'pulse': 'animate-pulse',
+    }
+    
+    return animationTypeMap[styles.animation.type] || ''
+  }
 
   // Classes communes pour tous les composants
   const baseClasses = [
     'relative',
     isSelected && !isPreview ? 'ring-2 ring-blue-500 ring-offset-2' : '',
     !isPreview ? 'cursor-pointer' : '',
-    'transition-all duration-200'
+    'transition-all duration-200',
+    getAnimationClass()
   ].filter(Boolean).join(' ')
+
+  const customStyles = getCustomStyles()
 
   // Rendu spécifique par type de composant
   const renderComponent = () => {
     switch (type) {
       case 'header':
         return (
-          <header className={`bg-white shadow-sm py-4 px-6 ${baseClasses}`} onClick={onClick}>
+          <header 
+            className={`bg-white shadow-sm py-4 px-6 ${baseClasses}`} 
+            onClick={onClick}
+            style={customStyles}
+          >
             <div className="flex items-center justify-between max-w-7xl mx-auto">
               <div className="flex items-center space-x-4">
                 {(props.showLogo as boolean) && (
@@ -266,6 +312,83 @@ export function ComponentRenderer({
               </div>
             </div>
           </footer>
+        )
+
+      case 'grid':
+        const gridProps = props as {
+          columns: number
+          rows: number
+          gap: string
+          alignItems: string
+          justifyContent: string
+        }
+        
+        const gridClasses = [
+          'grid',
+          `grid-cols-${gridProps.columns || 2}`,
+          `gap-${gridProps.gap || '4'}`,
+          `items-${gridProps.alignItems || 'start'}`,
+          `justify-${gridProps.justifyContent || 'start'}`,
+          baseClasses
+        ].join(' ')
+        
+        return (
+          <div 
+            className={gridClasses}
+            onClick={onClick}
+            style={customStyles}
+          >
+            {children && children.length > 0 ? (
+              children.map((child) => (
+                <ComponentRenderer
+                  key={child.id}
+                  component={child}
+                  isPreview={isPreview}
+                />
+              ))
+            ) : (
+              <div className="col-span-full p-8 border-2 border-dashed border-gray-300 rounded-lg text-center text-gray-500">
+                <p>Ajoutez des composants à cette grille</p>
+              </div>
+            )}
+          </div>
+        )
+
+      case 'container':
+        const containerProps = props as {
+          padding: string
+          margin: string
+          maxWidth: string
+        }
+        
+        const containerClasses = [
+          'container',
+          `p-${containerProps.padding || '4'}`,
+          `m-${containerProps.margin || '2'}`,
+          `max-w-${containerProps.maxWidth || 'full'}`,
+          baseClasses
+        ].join(' ')
+        
+        return (
+          <div 
+            className={containerClasses}
+            onClick={onClick}
+            style={customStyles}
+          >
+            {children && children.length > 0 ? (
+              children.map((child) => (
+                <ComponentRenderer
+                  key={child.id}
+                  component={child}
+                  isPreview={isPreview}
+                />
+              ))
+            ) : (
+              <div className="p-8 border-2 border-dashed border-gray-300 rounded-lg text-center text-gray-500">
+                <p>Ajoutez des composants à ce conteneur</p>
+              </div>
+            )}
+          </div>
         )
 
       default:
