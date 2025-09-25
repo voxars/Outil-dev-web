@@ -52,7 +52,7 @@ export function PropertyPanel() {
               <Label htmlFor="title">Titre</Label>
               <Input
                 id="title"
-                value={props.title || ''}
+                value={(props.title as string) || ''}
                 onChange={(e) => handlePropertyChange('title', e.target.value)}
                 placeholder="Nom du site"
               />
@@ -62,7 +62,7 @@ export function PropertyPanel() {
               <input
                 id="showLogo"
                 type="checkbox"
-                checked={props.showLogo || false}
+                checked={(props.showLogo as boolean) || false}
                 onChange={(e) => handlePropertyChange('showLogo', e.target.checked)}
                 className="ml-2"
               />
@@ -77,7 +77,7 @@ export function PropertyPanel() {
               <Label htmlFor="title">Titre principal</Label>
               <Input
                 id="title"
-                value={props.title || ''}
+                value={(props.title as string) || ''}
                 onChange={(e) => handlePropertyChange('title', e.target.value)}
                 placeholder="Titre accrocheur"
               />
@@ -86,7 +86,7 @@ export function PropertyPanel() {
               <Label htmlFor="subtitle">Sous-titre</Label>
               <Textarea
                 id="subtitle"
-                value={props.subtitle || ''}
+                value={(props.subtitle as string) || ''}
                 onChange={(e) => handlePropertyChange('subtitle', e.target.value)}
                 placeholder="Description captivante"
                 rows={3}
@@ -96,7 +96,7 @@ export function PropertyPanel() {
               <Label htmlFor="buttonText">Texte du bouton</Label>
               <Input
                 id="buttonText"
-                value={props.buttonText || ''}
+                value={(props.buttonText as string) || ''}
                 onChange={(e) => handlePropertyChange('buttonText', e.target.value)}
                 placeholder="En savoir plus"
               />
@@ -111,7 +111,7 @@ export function PropertyPanel() {
               <Label htmlFor="title">Titre</Label>
               <Input
                 id="title"
-                value={props.title || ''}
+                value={(props.title as string) || ''}
                 onChange={(e) => handlePropertyChange('title', e.target.value)}
                 placeholder="À propos de nous"
               />
@@ -120,17 +120,17 @@ export function PropertyPanel() {
               <Label htmlFor="content">Contenu</Label>
               <Textarea
                 id="content"
-                value={props.content || ''}
+                value={(props.content as string) || ''}
                 onChange={(e) => handlePropertyChange('content', e.target.value)}
                 placeholder="Votre histoire..."
                 rows={5}
               />
             </div>
             <div>
-              <Label htmlFor="imagePosition">Position de l'image</Label>
+              <Label htmlFor="imagePosition">Position de l&apos;image</Label>
               <select
                 id="imagePosition"
-                value={props.imagePosition || 'right'}
+                value={(props.imagePosition as string) || 'right'}
                 onChange={(e) => handlePropertyChange('imagePosition', e.target.value)}
                 className="w-full px-3 py-2 border border-purple-200 bg-white text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 hover:border-purple-300 transition-colors"
               >
@@ -148,7 +148,7 @@ export function PropertyPanel() {
               <Label htmlFor="title">Titre</Label>
               <Input
                 id="title"
-                value={props.title || ''}
+                value={(props.title as string) || ''}
                 onChange={(e) => handlePropertyChange('title', e.target.value)}
                 placeholder="Contactez-nous"
               />
@@ -157,7 +157,7 @@ export function PropertyPanel() {
               <Label htmlFor="address">Adresse</Label>
               <Input
                 id="address"
-                value={props.address || ''}
+                value={(props.address as string) || ''}
                 onChange={(e) => handlePropertyChange('address', e.target.value)}
                 placeholder="123 Rue Example"
               />
@@ -166,7 +166,7 @@ export function PropertyPanel() {
               <Label htmlFor="phone">Téléphone</Label>
               <Input
                 id="phone"
-                value={props.phone || ''}
+                value={(props.phone as string) || ''}
                 onChange={(e) => handlePropertyChange('phone', e.target.value)}
                 placeholder="+33 1 23 45 67 89"
               />
@@ -175,7 +175,7 @@ export function PropertyPanel() {
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
-                value={props.email || ''}
+                value={(props.email as string) || ''}
                 onChange={(e) => handlePropertyChange('email', e.target.value)}
                 placeholder="contact@example.com"
               />
@@ -185,7 +185,7 @@ export function PropertyPanel() {
               <input
                 id="showForm"
                 type="checkbox"
-                checked={props.showForm || false}
+                checked={(props.showForm as boolean) || false}
                 onChange={(e) => handlePropertyChange('showForm', e.target.checked)}
                 className="ml-2"
               />

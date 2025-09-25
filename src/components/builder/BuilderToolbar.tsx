@@ -19,7 +19,6 @@ export function BuilderToolbar() {
     togglePreview,
     undo,
     redo,
-    resetBuilder,
     history,
     historyIndex
   } = useBuilderStore()
