@@ -20,6 +20,8 @@ export type ComponentType =
   | 'button'
   | 'container'
   | 'grid'
+  | 'grid-item'
+  | 'scrollable-grid'
   | 'spacer'
 
 export interface ComponentStyles {
@@ -34,11 +36,25 @@ export interface ComponentStyles {
   width?: string
   height?: string
   maxWidth?: string
+  overflow?: 'visible' | 'hidden' | 'scroll' | 'auto'
+  display?: 'flex' | 'grid' | 'block' | 'inline-block'
+  flexDirection?: 'row' | 'column'
+  gap?: string
+  columns?: number
+  rows?: number
   animation?: {
-    type: string
-    duration: number
-    delay: number
-    easing: string
+    entrance?: {
+      type: string
+      duration: number
+      delay: number
+      easing: string
+    }
+    exit?: {
+      type: string
+      duration: number
+      delay: number
+      easing: string
+    }
   }
 }
 
@@ -71,10 +87,30 @@ export interface DragItem {
   id: string
   type: ComponentType
   index?: number
+  fromLibrary?: boolean
 }
 
 export interface DropResult {
   draggedId: string
   overId: string | null
   position: 'before' | 'after' | 'inside'
+}
+
+export interface GridConfig {
+  columns: number
+  rows?: number
+  gap: string
+  scrollable: boolean
+  maxHeight?: string
+  itemMinWidth?: string
+  itemMinHeight?: string
+}
+
+export interface DraggableComponentData {
+  type: ComponentType
+  label: string
+  icon: string
+  description: string
+  defaultProps?: Record<string, unknown>
+  canBeInGrid?: boolean
 }

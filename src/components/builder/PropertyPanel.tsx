@@ -6,7 +6,8 @@ import { Button } from '@/components/ui/button'
 import { ColorPicker } from '@/components/ui/ColorPicker'
 import { AnimationPicker } from '@/components/ui/AnimationPicker'
 import { GridPicker } from '@/components/ui/GridContainer'
-import { Trash2, Settings, Palette, Play } from 'lucide-react'
+import { GridProperties } from '@/components/ui/GridProperties'
+import { Trash2, Settings, Palette, Play, Grid3X3, Layers } from 'lucide-react'
 
 export function PropertyPanel() {
   const { 
@@ -21,9 +22,9 @@ export function PropertyPanel() {
 
   if (!selectedComponent) {
     return (
-      <div className="w-80 bg-gradient-to-b from-white to-purple-50 border-l border-purple-200 p-4 backdrop-blur-sm">
-        <div className="text-center text-purple-600 mt-8">
-          <Settings className="h-8 w-8 mx-auto mb-2 text-purple-400" />
+      <div className="w-80 bg-gradient-to-b from-white to-purple-50 border-l border-purple-200 p-4 backdrop-blur-sm builder-interface">
+        <div className="text-center text-purple-800 mt-8">
+          <Settings className="h-8 w-8 mx-auto mb-2 text-purple-600" />
           <p className="text-sm">Sélectionnez un composant pour modifier ses propriétés</p>
         </div>
       </div>
@@ -48,7 +49,7 @@ export function PropertyPanel() {
     })
   }
 
-  const handleAnimationChange = (animation: {type: string, duration: number, delay: number, easing: string}) => {
+  const handleAnimationChange = (animation: { entrance?: { type: string, duration: number, delay: number, easing: string }, exit?: { type: string, duration: number, delay: number, easing: string } }) => {
     updateComponent(selectedComponent.id, {
       styles: {
         ...selectedComponent.styles,
@@ -64,38 +65,48 @@ export function PropertyPanel() {
 
   const renderStyleControls = () => {
     const styles = selectedComponent.styles || {}
-    const animation = styles.animation || { type: 'none', duration: 300, delay: 0, easing: 'ease-out' }
+    const animation = styles.animation || { 
+      entrance: { type: 'none', duration: 300, delay: 0, easing: 'ease-out' },
+      exit: { type: 'none', duration: 300, delay: 0, easing: 'ease-out' }
+    }
 
     return (
-      <div className="border-t pt-4 mt-4 space-y-4">
-        <h4 className="font-medium text-gray-900 flex items-center space-x-2">
-          <Palette className="w-4 h-4" />
-          <span>Style et Couleurs</span>
-        </h4>
-        
-        <div className="grid grid-cols-2 gap-4">
-          <ColorPicker
-            label="Couleur de fond"
-            value={styles.backgroundColor || '#FFFFFF'}
-            onChange={(color) => handleStyleChange('backgroundColor', color)}
-          />
-          <ColorPicker
-            label="Couleur du texte"
-            value={styles.textColor || '#000000'}
-            onChange={(color) => handleStyleChange('textColor', color)}
-          />
+      <div className="border-t pt-6 mt-6 space-y-6">
+        <div>
+          <h4 className="font-medium text-gray-900 flex items-center space-x-2 mb-4">
+            <Palette className="w-4 h-4" />
+            <span>Style et Couleurs</span>
+          </h4>
+          
+          <div className="space-y-4">
+            <ColorPicker
+              label="Couleur de fond"
+              value={styles.backgroundColor || '#FFFFFF'}
+              onChange={(color) => handleStyleChange('backgroundColor', color)}
+              className="w-full"
+            />
+            <ColorPicker
+              label="Couleur du texte"
+              value={styles.textColor || '#000000'}
+              onChange={(color) => handleStyleChange('textColor', color)}
+              className="w-full"
+            />
+          </div>
         </div>
 
-        <h4 className="font-medium text-gray-900 flex items-center space-x-2">
-          <Play className="w-4 h-4" />
-          <span>Animations</span>
-        </h4>
-        
-        <AnimationPicker
-          label="Animation d'entrée"
-          value={animation}
-          onChange={handleAnimationChange}
-        />
+        <div>
+          <h4 className="font-medium text-gray-900 flex items-center space-x-2 mb-4">
+            <Play className="w-4 h-4" />
+            <span>Animations</span>
+          </h4>
+          
+          <AnimationPicker
+            label="Animations"
+            value={animation as { entrance?: { type: string, duration: number, delay: number, easing: string }, exit?: { type: string, duration: number, delay: number, easing: string } }}
+            onChange={handleAnimationChange}
+            className="w-full"
+          />
+        </div>
       </div>
     )
   }
@@ -126,7 +137,6 @@ export function PropertyPanel() {
                 className="ml-2"
               />
             </div>
-            {renderStyleControls()}
             {renderStyleControls()}
           </div>
         )
@@ -333,10 +343,74 @@ export function PropertyPanel() {
           </div>
         )
 
+      case 'grid':
+        return (
+          <div className="space-y-6">
+            <div className="flex items-center space-x-2 mb-4">
+              <Grid3X3 className="w-5 h-5 text-purple-600" />
+              <h3 className="font-semibold text-gray-900">Grille Simple</h3>
+            </div>
+            <GridProperties component={selectedComponent} />
+            {renderStyleControls()}
+          </div>
+        )
+
+      case 'scrollable-grid':
+        return (
+          <div className="space-y-6">
+            <div className="flex items-center space-x-2 mb-4">
+              <Layers className="w-5 h-5 text-purple-600" />
+              <h3 className="font-semibold text-gray-900">Grille Défilante</h3>
+            </div>
+            <GridProperties component={selectedComponent} />
+            {renderStyleControls()}
+          </div>
+        )
+
+      case 'grid-item':
+        return (
+          <div className="space-y-4">
+            <div className="flex items-center space-x-2 mb-4">
+              <Grid3X3 className="w-5 h-5 text-purple-600" />
+              <h3 className="font-semibold text-gray-900">Élément de Grille</h3>
+            </div>
+            <div>
+              <Label htmlFor="content">Contenu</Label>
+              <Textarea
+                id="content"
+                value={(props.content as string) || ''}
+                onChange={(e) => handlePropertyChange('content', e.target.value)}
+                placeholder="Contenu de l'élément..."
+              />
+            </div>
+            <div>
+              <Label htmlFor="minWidth">Largeur minimale</Label>
+              <Input
+                id="minWidth"
+                value={(props.minWidth as string) || '200px'}
+                onChange={(e) => handlePropertyChange('minWidth', e.target.value)}
+                placeholder="200px"
+              />
+            </div>
+            <div>
+              <Label htmlFor="minHeight">Hauteur minimale</Label>
+              <Input
+                id="minHeight"
+                value={(props.minHeight as string) || '150px'}
+                onChange={(e) => handlePropertyChange('minHeight', e.target.value)}
+                placeholder="150px"
+              />
+            </div>
+            {renderStyleControls()}
+          </div>
+        )
+
       default:
         return (
-          <div className="text-center text-gray-500 text-sm">
-            Propriétés pour {type} à venir
+          <div className="space-y-4">
+            <div className="text-center text-gray-500 text-sm">
+              Propriétés pour {type} à venir
+            </div>
             {renderStyleControls()}
           </div>
         )
@@ -344,13 +418,13 @@ export function PropertyPanel() {
   }
 
   return (
-    <div className="w-80 bg-gradient-to-b from-white to-purple-50 border-l border-purple-200 p-4 overflow-y-auto backdrop-blur-sm">
+    <div className="w-80 bg-gradient-to-b from-white to-purple-50 border-l border-purple-200 p-4 overflow-y-auto overflow-x-visible backdrop-blur-sm property-panel builder-interface">
       <Card className="bg-gradient-to-br from-white to-purple-25 border-purple-200 shadow-lg">
         <CardHeader className="pb-3 bg-gradient-to-r from-purple-100 to-blue-100 rounded-t-lg">
           <div className="flex items-center justify-between">
             <div>
               <CardTitle className="text-lg text-purple-800">Propriétés</CardTitle>
-              <CardDescription className="text-purple-600">
+              <CardDescription className="text-purple-700">
                 {selectedComponent.type.charAt(0).toUpperCase() + selectedComponent.type.slice(1)}
               </CardDescription>
             </div>
@@ -362,7 +436,6 @@ export function PropertyPanel() {
             >
               <Trash2 className="h-4 w-4" />
             </Button>
-            {renderStyleControls()}
           </div>
         </CardHeader>
         

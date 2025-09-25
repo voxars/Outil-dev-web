@@ -20,9 +20,11 @@ interface BuilderState {
   
   // Actions
   addComponent: (component: Omit<WebsiteComponent, 'id'>, parentId?: string) => void
+  insertComponentAtIndex: (component: Omit<WebsiteComponent, 'id'>, index: number) => void
   updateComponent: (id: string, updates: Partial<WebsiteComponent>) => void
   deleteComponent: (id: string) => void
   moveComponent: (componentId: string, targetId: string, position: 'before' | 'after' | 'inside') => void
+  reorderComponents: (activeId: string, overId: string) => void
   selectComponent: (id: string | null) => void
   setTheme: (theme: WebsiteTheme) => void
   togglePreview: () => void
@@ -48,14 +50,17 @@ const defaultTheme: WebsiteTheme = {
   }
 }
 
+// Import du template par défaut (désactivé pour commencer avec un canvas vide)
+import { templates } from '@/data/templates'
+
 export const useBuilderStore = create<BuilderState>()(
   devtools(
     (set) => ({
-      components: [],
+      components: [], // Commencer avec un canvas vide
       selectedComponentId: null,
-      theme: defaultTheme,
+      theme: defaultTheme, // Utiliser le thème par défaut simple
       isPreviewMode: false,
-      history: [[]],
+      history: [[]], // Historique vide
       historyIndex: 0,
 
       addComponent: (component, parentId) => {
@@ -63,12 +68,12 @@ export const useBuilderStore = create<BuilderState>()(
           ...component,
           id: generateId()
         }
+        
+
 
         set((state) => {
-          const newComponents = [...state.components]
-          
           if (parentId) {
-            // Ajouter comme enfant d'un composant existant
+            // Ajouter comme enfant d'un composant existant UNIQUEMENT
             const addToParent = (comps: WebsiteComponent[]): WebsiteComponent[] => {
               return comps.map(comp => {
                 if (comp.id === parentId) {
@@ -86,16 +91,19 @@ export const useBuilderStore = create<BuilderState>()(
                 return comp
               })
             }
+            
+            const updatedComponents = addToParent(state.components)
+            
             return {
               ...state,
-              components: addToParent(newComponents),
+              components: updatedComponents,
               selectedComponentId: newComponent.id,
-              history: [...state.history.slice(0, state.historyIndex + 1), addToParent(newComponents)],
+              history: [...state.history.slice(0, state.historyIndex + 1), updatedComponents],
               historyIndex: state.historyIndex + 1
             }
           } else {
             // Ajouter au niveau racine
-            newComponents.push(newComponent)
+            const newComponents = [...state.components, newComponent]
             return {
               ...state,
               components: newComponents,
@@ -103,6 +111,26 @@ export const useBuilderStore = create<BuilderState>()(
               history: [...state.history.slice(0, state.historyIndex + 1), newComponents],
               historyIndex: state.historyIndex + 1
             }
+          }
+        })
+      },
+
+      insertComponentAtIndex: (component, index) => {
+        const newComponent: WebsiteComponent = {
+          ...component,
+          id: generateId()
+        }
+
+        set((state) => {
+          const newComponents = [...state.components]
+          newComponents.splice(index, 0, newComponent)
+          
+          return {
+            ...state,
+            components: newComponents,
+            selectedComponentId: newComponent.id,
+            history: [...state.history.slice(0, state.historyIndex + 1), newComponents],
+            historyIndex: state.historyIndex + 1
           }
         })
       },
@@ -158,7 +186,7 @@ export const useBuilderStore = create<BuilderState>()(
 
       moveComponent: (componentId, targetId, position) => {
         // TODO: Implémenter la logique de déplacement drag & drop
-        console.log('Moving component:', { componentId, targetId, position })
+        
       },
 
       selectComponent: (id) => {
@@ -209,6 +237,26 @@ export const useBuilderStore = create<BuilderState>()(
           isPreviewMode: false,
           history: [[]],
           historyIndex: 0
+        })
+      },
+
+      reorderComponents: (activeId, overId) => {
+        set((state) => {
+          const oldIndex = state.components.findIndex(comp => comp.id === activeId)
+          const newIndex = state.components.findIndex(comp => comp.id === overId)
+          
+          if (oldIndex === -1 || newIndex === -1) return state
+          
+          const newComponents = [...state.components]
+          const [movedComponent] = newComponents.splice(oldIndex, 1)
+          newComponents.splice(newIndex, 0, movedComponent)
+          
+          return {
+            ...state,
+            components: newComponents,
+            history: [...state.history.slice(0, state.historyIndex + 1), newComponents],
+            historyIndex: state.historyIndex + 1
+          }
         })
       },
 

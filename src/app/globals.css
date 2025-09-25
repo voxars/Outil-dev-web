@@ -1,21 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --background: #8f8b8b;
+  --background: #ffffff;
   --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: #ffffff;
+  --color-foreground: #171717;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --color-background: #0a0a0a;
+    --color-foreground: #ededed;
   }
 }
 
@@ -23,4 +20,469 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Règles de contraste amélioré pour l'interface */
+/* S'assurer que tous les textes violets ont un bon contraste */
+.text-purple-600 {
+  color: rgb(124 58 237) !important; /* purple-700 pour meilleur contraste */
+}
+
+.text-purple-400 {
+  color: rgb(124 58 237) !important; /* purple-700 pour meilleur contraste */
+}
+
+.text-blue-600 {
+  color: rgb(30 64 175) !important; /* blue-800 pour meilleur contraste */
+}
+
+/* S'assurer que les textes gris clairs ont un contraste suffisant */
+.text-gray-400 {
+  color: rgb(75 85 99) !important; /* gray-600 pour meilleur contraste */
+}
+
+/* Améliorer les textes sur fonds colorés */
+.bg-purple-50 .text-purple-600,
+.bg-purple-50 .text-purple-700 {
+  color: rgb(88 28 135) !important; /* purple-800 */
+}
+
+.bg-blue-50 .text-blue-600 {
+  color: rgb(30 64 175) !important; /* blue-800 */
+}
+
+/* Thème général violet-bleu pour l'interface */
+.ring-blue-500 {
+  --tw-ring-color: rgb(147 51 234) !important; /* purple-600 */
+}
+
+.ring-blue-400 {
+  --tw-ring-color: rgb(168 85 247) !important; /* purple-500 */
+}
+
+.border-blue-400 {
+  border-color: rgb(168 85 247) !important; /* purple-500 */
+}
+
+.text-blue-600 {
+  color: rgb(124 58 237) !important; /* purple-700 */
+}
+
+/* Animations pour l'aperçu */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slide-down {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slide-left {
+  from { transform: translateX(20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slide-right {
+  from { transform: translateX(-20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes zoom-in {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes zoom-out {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(0.8); opacity: 0; }
+}
+
+@keyframes rotate-in {
+  from { transform: rotate(-180deg) scale(0.8); opacity: 0; }
+  to { transform: rotate(0deg) scale(1); opacity: 1; }
+}
+
+@keyframes rotate-out {
+  from { transform: rotate(0deg) scale(1); opacity: 1; }
+  to { transform: rotate(180deg) scale(0.8); opacity: 0; }
+}
+
+@keyframes bounce-in {
+  0% { transform: scale(0.3); opacity: 0; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+  70% { transform: scale(0.9); opacity: 0.9; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes bounce-out {
+  0% { transform: scale(1); opacity: 1; }
+  30% { transform: scale(1.1); opacity: 0.9; }
+  100% { transform: scale(0.3); opacity: 0; }
+}
+
+@keyframes flip-in {
+  from { transform: perspective(400px) rotateY(-90deg); opacity: 0; }
+  to { transform: perspective(400px) rotateY(0deg); opacity: 1; }
+}
+
+@keyframes flip-out {
+  from { transform: perspective(400px) rotateY(0deg); opacity: 1; }
+  to { transform: perspective(400px) rotateY(90deg); opacity: 0; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.animate-fade-in { animation: fade-in 0.5s ease-out; }
+.animate-fade-out { animation: fade-out 0.5s ease-out; }
+.animate-slide-up { animation: slide-up 0.5s ease-out; }
+.animate-slide-down { animation: slide-down 0.5s ease-out; }
+.animate-slide-left { animation: slide-left 0.5s ease-out; }
+.animate-slide-right { animation: slide-right 0.5s ease-out; }
+.animate-zoom-in { animation: zoom-in 0.5s ease-out; }
+.animate-zoom-out { animation: zoom-out 0.5s ease-out; }
+.animate-rotate-in { animation: rotate-in 0.5s ease-out; }
+.animate-rotate-out { animation: rotate-out 0.5s ease-out; }
+.animate-bounce-in { animation: bounce-in 0.6s ease-out; }
+.animate-bounce-out { animation: bounce-out 0.6s ease-out; }
+.animate-flip-in { animation: flip-in 0.6s ease-out; }
+.animate-flip-out { animation: flip-out 0.6s ease-out; }
+.animate-shake { animation: shake 0.5s ease-in-out; }
+
+/* Force l'héritage de couleur pour les composants personnalisés */
+.component-custom-text h1,
+.component-custom-text h2,
+.component-custom-text h3,
+.component-custom-text h4,
+.component-custom-text h5,
+.component-custom-text h6,
+.component-custom-text p,
+.component-custom-text span,
+.component-custom-text a,
+.component-custom-text div {
+  color: inherit !important;
+}
+
+/* Styles pour les grilles défilantes */
+.scrollable-grid {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+
+.scrollable-grid::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollable-grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollable-grid::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 3px;
+}
+
+.scrollable-grid::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(156, 163, 175, 0.8);
+}
+
+/* Styles pour les éléments de grille */
+.grid-item {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.grid-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles pour le PropertyPanel et les menus déroulants */
+.property-panel {
+  position: relative;
+}
+
+.property-panel .absolute {
+  z-index: 1000;
+}
+
+/* S'assurer que les éléments absolus ne sont pas coupés */
+.property-panel > * {
+  overflow: visible;
+}
+
+/* Amélioration du drag & drop */
+.dnd-dragging {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Curseurs pour le drag & drop */
+.cursor-grab {
+  cursor: grab;
+}
+
+.cursor-grabbing,
+.cursor-grab:active {
+  cursor: grabbing;
+}
+
+/* Animation fluide pour les drops */
+.drop-zone-active {
+  transition: all 0.2s ease;
+}
+
+/* Réduction du décalage lors du drag */
+[data-dnd-kit-draggable] {
+  touch-action: none;
+}
+
+/* Overlay amélioré */
+[data-dnd-kit-overlay] {
+  z-index: 9999;
+}
+
+/* Animations fluides pour le drag & drop */
+.sortable-component {
+  position: relative;
+}
+
+/* Éléments de la bibliothèque : ne bougent jamais */
+.component-library .sortable-component,
+.component-library [data-dnd-kit-draggable] {
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Seuls les éléments du canvas peuvent bouger */
+.website-canvas .sortable-component[data-dragging="true"] {
+  will-change: transform;
+  transform-origin: center center;
+}
+
+/* Conteneur stable */
+.dnd-sortable-container {
+  position: relative;
+}
+
+/* Pas d'animation automatique sur les enfants */
+.dnd-sortable-container > * {
+  position: relative;
+}
+
+/* Styles pour les zones de drop */
+.drop-zone {
+  transition: all 0.2s ease;
+}
+
+.drop-zone-active {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgb(59, 130, 246);
+}
+
+/* Animation des zones d'insertion */
+.insert-indicator {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+/* Styles pour les composants dans les grilles */
+.grid-item {
+  color: #111827 !important; /* Forcer le texte en gris très foncé */
+}
+
+/* ===== RÈGLES DE VISIBILITÉ GLOBALES ===== */
+/* S'appliquent à tous les composants du site */
+
+/* Grilles - couleurs spécifiques */
+.grid-item * {
+  color: inherit !important;
+}
+
+.grid-item h1, .grid-item h2, .grid-item h3, .grid-item h4, .grid-item h5, .grid-item h6 {
+  color: #111827 !important;
+  font-weight: 600;
+}
+
+.grid-item p, .grid-item span, .grid-item div {
+  color: #374151 !important;
+}
+
+/* ===== AMÉLIORATION GLOBALE DE LA LISIBILITÉ ===== */
+
+/* Titres et textes principaux */
+h1, h2, h3, h4, h5, h6 {
+  color: #111827 !important;
+  font-weight: 600;
+}
+
+/* Texte général */
+p, span, div, li, td, th {
+  color: #374151 !important;
+}
+
+/* ===== FORMULAIRES ET INPUTS ===== */
+/* Amélioration critique pour la lisibilité */
+
+input, textarea, select {
+  color: #111827 !important;
+  background-color: #ffffff !important;
+  border: 1px solid #d1d5db !important;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #6b7280 !important;
+  opacity: 1;
+}
+
+input:focus, textarea:focus, select:focus {
+  color: #111827 !important;
+  background-color: #ffffff !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Labels de formulaire */
+label {
+  color: #374151 !important;
+  font-weight: 500;
+}
+
+/* Boutons - Styles par défaut pour les boutons dans les composants du site web */
+.website-component button {
+  color: #ffffff !important;
+}
+
+.website-component button:hover {
+  opacity: 0.9;
+}
+
+/* Styles spécifiques pour les boutons de l'interface */
+.builder-interface button[class*="outline"],
+.builder-interface button.inline-flex,
+.property-panel button,
+.component-library button {
+  color: rgb(124 58 237) !important; /* purple-700 */
+  background: white !important;
+  border-color: rgb(168 85 247) !important; /* purple-500 */
+}
+
+.builder-interface button[class*="outline"]:hover,
+.builder-interface button.inline-flex:hover,
+.property-panel button:hover,
+.component-library button:hover {
+  color: rgb(88 28 135) !important; /* purple-800 */
+  background: rgb(243 232 255) !important; /* purple-50 */
+  border-color: rgb(124 58 237) !important; /* purple-700 */
+}
+
+/* ===== LIENS ===== */
+a {
+  color: #3b82f6 !important;
+  text-decoration: underline;
+}
+
+a:hover {
+  color: #1d4ed8 !important;
+}
+
+/* ===== CONTRASTES SPÉCIAUX ===== */
+/* Pour les sections avec arrière-plans colorés */
+
+.bg-primary, .bg-secondary, .bg-dark {
+  color: #ffffff !important;
+}
+
+.bg-primary h1, .bg-primary h2, .bg-primary h3, .bg-primary h4, .bg-primary h5, .bg-primary h6,
+.bg-secondary h1, .bg-secondary h2, .bg-secondary h3, .bg-secondary h4, .bg-secondary h5, .bg-secondary h6,
+.bg-dark h1, .bg-dark h2, .bg-dark h3, .bg-dark h4, .bg-dark h5, .bg-dark h6 {
+  color: #ffffff !important;
+}
+
+.bg-primary p, .bg-primary span, .bg-primary div,
+.bg-secondary p, .bg-secondary span, .bg-secondary div,
+.bg-dark p, .bg-dark span, .bg-dark div {
+  color: #f3f4f6 !important;
+}
+
+/* ===== COMPOSANTS SPÉCIFIQUES ===== */
+
+/* Services */
+.services-grid .service-item h3 {
+  color: #111827 !important;
+}
+
+.services-grid .service-item p {
+  color: #6b7280 !important;
+}
+
+/* Portfolio */
+.portfolio-item h3 {
+  color: #111827 !important;
+}
+
+.portfolio-item p {
+  color: #6b7280 !important;
+}
+
+/* Témoignages */
+.testimonial blockquote {
+  color: #374151 !important;
+}
+
+.testimonial .author {
+  color: #6b7280 !important;
+}
+
+/* Contact */
+.contact-form input, .contact-form textarea {
+  color: #111827 !important;
+  background-color: #ffffff !important;
+}
+
+/* ===== SURCHARGE D'URGENCE ===== */
+/* Si certains éléments restent invisibles */
+.text-invisible, .text-white-on-white {
+  color: #111827 !important;
+  background-color: transparent !important;
+}
+
+/* Classe pour les composants avec texte personnalisé */
+.component-custom-text input,
+.component-custom-text textarea,
+.component-custom-text select {
+  color: #111827 !important;
+  background-color: #ffffff !important;
+}
+
+.component-custom-text input::placeholder,
+.component-custom-text textarea::placeholder {
+  color: #6b7280 !important;
+}
+
+/* Force la lisibilité même avec couleurs personnalisées */
+.component-custom-text label {
+  color: #374151 !important;
+  font-weight: 500;
 }

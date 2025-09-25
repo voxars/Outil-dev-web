@@ -16,10 +16,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           {
             'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg hover:from-purple-700 hover:to-blue-700 hover:shadow-xl transform hover:scale-105': variant === 'default',
             'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90': variant === 'destructive',
-            'border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground': variant === 'outline',
-            'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80': variant === 'secondary',
-            'hover:bg-accent hover:text-accent-foreground': variant === 'ghost',
-            'text-primary underline-offset-4 hover:underline': variant === 'link',
+            'border-2 border-purple-500 bg-white text-purple-700 shadow-sm hover:bg-purple-50 hover:border-purple-600 hover:text-purple-800 transition-all duration-200': variant === 'outline',
+            'bg-gray-100 text-gray-800 shadow-sm hover:bg-gray-200 border border-gray-300': variant === 'secondary',
+            'hover:bg-purple-100 hover:text-purple-800 text-purple-700': variant === 'ghost',
+            'text-purple-600 underline-offset-4 hover:underline hover:text-purple-800': variant === 'link',
           },
           {
             'h-9 px-4 py-2': size === 'default',

@@ -5,10 +5,18 @@ import { Button } from './button'
 import { Play, Settings } from 'lucide-react'
 
 interface AnimationConfig {
-  type: string
-  duration: number
-  delay: number
-  easing: string
+  entrance?: {
+    type: string
+    duration: number
+    delay: number
+    easing: string
+  }
+  exit?: {
+    type: string
+    duration: number
+    delay: number
+    easing: string
+  }
 }
 
 interface AnimationPickerProps {
@@ -19,15 +27,23 @@ interface AnimationPickerProps {
 }
 
 const animationTypes = [
-  { value: 'none', label: 'Aucune', class: '' },
-  { value: 'fade-in', label: 'Apparition', class: 'animate-fade-in' },
-  { value: 'slide-up', label: 'Glissement haut', class: 'animate-slide-up' },
-  { value: 'slide-down', label: 'Glissement bas', class: 'animate-slide-down' },
-  { value: 'slide-left', label: 'Glissement gauche', class: 'animate-slide-left' },
-  { value: 'slide-right', label: 'Glissement droite', class: 'animate-slide-right' },
-  { value: 'zoom-in', label: 'Zoom avant', class: 'animate-zoom-in' },
-  { value: 'bounce', label: 'Rebond', class: 'animate-bounce' },
-  { value: 'pulse', label: 'Pulsation', class: 'animate-pulse' },
+  { value: 'none', label: 'Aucune' },
+  { value: 'fade-in', label: 'Apparition fondu' },
+  { value: 'fade-out', label: 'Disparition fondu' },
+  { value: 'slide-up', label: 'Glissement vers le haut' },
+  { value: 'slide-down', label: 'Glissement vers le bas' },
+  { value: 'slide-left', label: 'Glissement vers la gauche' },
+  { value: 'slide-right', label: 'Glissement vers la droite' },
+  { value: 'zoom-in', label: 'Zoom avant' },
+  { value: 'zoom-out', label: 'Zoom arrière' },
+  { value: 'rotate-in', label: 'Rotation entrée' },
+  { value: 'rotate-out', label: 'Rotation sortie' },
+  { value: 'bounce-in', label: 'Rebond entrée' },
+  { value: 'bounce-out', label: 'Rebond sortie' },
+  { value: 'flip-in', label: 'Retournement entrée' },
+  { value: 'flip-out', label: 'Retournement sortie' },
+  { value: 'shake', label: 'Tremblement' },
+  { value: 'pulse', label: 'Pulsation' }
 ]
 
 const easingOptions = [
@@ -40,23 +56,43 @@ const easingOptions = [
 
 export function AnimationPicker({ value, onChange, label, className }: AnimationPickerProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const [previewAnimation, setPreviewAnimation] = useState<string | null>(null)
+  const [activeTab, setActiveTab] = useState<'entrance' | 'exit'>('entrance')
 
-  const handleAnimationChange = (newValue: Partial<AnimationConfig>) => {
-    onChange({ ...value, ...newValue })
+  const handleEntranceChange = (newValue: Partial<{ type: string, duration: number, delay: number, easing: string }>) => {
+    onChange({
+      ...value,
+      entrance: {
+        type: 'none',
+        duration: 300,
+        delay: 0,
+        easing: 'ease-out',
+        ...value.entrance,
+        ...newValue
+      }
+    })
   }
 
-  const handlePreview = (animationType: string) => {
-    setPreviewAnimation(animationType)
-    setTimeout(() => setPreviewAnimation(null), 1000)
+  const handleExitChange = (newValue: Partial<{ type: string, duration: number, delay: number, easing: string }>) => {
+    onChange({
+      ...value,
+      exit: {
+        type: 'none',
+        duration: 300,
+        delay: 0,
+        easing: 'ease-out',
+        ...value.exit,
+        ...newValue
+      }
+    })
   }
 
-  const selectedAnimation = animationTypes.find(anim => anim.value === value.type) || animationTypes[0]
+  const currentAnimation = activeTab === 'entrance' ? value.entrance : value.exit
+  const currentSelectedAnimation = animationTypes.find(anim => anim.value === currentAnimation?.type) || animationTypes[0]
 
   return (
     <div className={`relative ${className}`}>
       {label && (
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-gray-900 mb-2">
           {label}
         </label>
       )}
@@ -67,55 +103,75 @@ export function AnimationPicker({ value, onChange, label, className }: Animation
           variant="outline"
           size="sm"
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center space-x-2 px-3 py-2 flex-1"
+          className="flex items-center space-x-2 px-3 py-2 flex-1 rounded-md"
         >
           <Play className="w-4 h-4" />
-          <span className="truncate">{selectedAnimation.label}</span>
+          <span className="truncate">{currentSelectedAnimation.label}</span>
           <Settings className="w-4 h-4" />
         </Button>
       </div>
 
       {isOpen && (
-        <div className="absolute z-50 mt-2 p-4 bg-white border border-gray-200 rounded-lg shadow-lg min-w-80">
-          <div className="space-y-4">
+        <div className="absolute z-[100] mt-2 p-3 bg-white border border-gray-200 rounded-lg shadow-xl w-72 -left-6 transform">
+          <div className="space-y-3">
+            {/* Onglets */}
+            <div className="flex border-b">
+              <button
+                type="button"
+                onClick={() => setActiveTab('entrance')}
+                className={`flex-1 py-2 px-3 text-sm font-medium text-center border-b-2 ${
+                  activeTab === 'entrance'
+                    ? 'border-purple-500 text-purple-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Entrée
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('exit')}
+                className={`flex-1 py-2 px-3 text-sm font-medium text-center border-b-2 ${
+                  activeTab === 'exit'
+                    ? 'border-purple-500 text-purple-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Sortie
+              </button>
+            </div>
+
             {/* Type d'animation */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-900 mb-2">
                 Type d&apos;animation
               </label>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 gap-1 max-h-32 overflow-y-auto">
                 {animationTypes.map((animation) => (
-                  <div key={animation.value} className="flex items-center space-x-2">
-                    <button
-                      type="button"
-                      onClick={() => handleAnimationChange({ type: animation.value })}
-                      className={`flex-1 px-3 py-2 text-sm rounded border text-left hover:bg-gray-50 ${
-                        value.type === animation.value
-                          ? 'border-blue-500 bg-blue-50 text-blue-700'
-                          : 'border-gray-300'
-                      }`}
-                    >
-                      {animation.label}
-                    </button>
-                    {animation.value !== 'none' && (
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handlePreview(animation.value)}
-                        className="p-1"
-                      >
-                        <Play className="w-3 h-3" />
-                      </Button>
-                    )}
-                  </div>
+                  <button
+                    key={animation.value}
+                    type="button"
+                    onClick={() => {
+                      if (activeTab === 'entrance') {
+                        handleEntranceChange({ type: animation.value })
+                      } else {
+                        handleExitChange({ type: animation.value })
+                      }
+                    }}
+                    className={`px-2 py-1 text-xs rounded border text-left hover:bg-gray-50 ${
+                      currentAnimation?.type === animation.value
+                        ? 'border-purple-500 bg-purple-100 text-purple-800'
+                        : 'border-gray-300 text-gray-900'
+                    }`}
+                  >
+                    {animation.label}
+                  </button>
                 ))}
               </div>
             </div>
 
             {/* Durée */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-900 mb-2">
                 Durée (ms)
               </label>
               <input
@@ -123,20 +179,26 @@ export function AnimationPicker({ value, onChange, label, className }: Animation
                 min="100"
                 max="2000"
                 step="100"
-                value={value.duration}
-                onChange={(e) => handleAnimationChange({ duration: parseInt(e.target.value) })}
+                value={currentAnimation?.duration || 300}
+                onChange={(e) => {
+                  if (activeTab === 'entrance') {
+                    handleEntranceChange({ duration: parseInt(e.target.value) })
+                  } else {
+                    handleExitChange({ duration: parseInt(e.target.value) })
+                  }
+                }}
                 className="w-full"
               />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
+              <div className="flex justify-between text-xs text-gray-900 mt-1">
                 <span>100ms</span>
-                <span>{value.duration}ms</span>
+                <span className="font-medium">{currentAnimation?.duration || 300}ms</span>
                 <span>2s</span>
               </div>
             </div>
 
             {/* Délai */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-900 mb-2">
                 Délai (ms)
               </label>
               <input
@@ -144,26 +206,38 @@ export function AnimationPicker({ value, onChange, label, className }: Animation
                 min="0"
                 max="2000"
                 step="100"
-                value={value.delay}
-                onChange={(e) => handleAnimationChange({ delay: parseInt(e.target.value) })}
+                value={currentAnimation?.delay || 0}
+                onChange={(e) => {
+                  if (activeTab === 'entrance') {
+                    handleEntranceChange({ delay: parseInt(e.target.value) })
+                  } else {
+                    handleExitChange({ delay: parseInt(e.target.value) })
+                  }
+                }}
                 className="w-full"
               />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
+              <div className="flex justify-between text-xs text-gray-900 mt-1">
                 <span>0ms</span>
-                <span>{value.delay}ms</span>
+                <span className="font-medium">{currentAnimation?.delay || 0}ms</span>
                 <span>2s</span>
               </div>
             </div>
 
             {/* Easing */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-900 mb-2">
                 Transition
               </label>
               <select
-                value={value.easing}
-                onChange={(e) => handleAnimationChange({ easing: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                value={currentAnimation?.easing || 'ease-out'}
+                onChange={(e) => {
+                  if (activeTab === 'entrance') {
+                    handleEntranceChange({ easing: e.target.value })
+                  } else {
+                    handleExitChange({ easing: e.target.value })
+                  }
+                }}
+                className="w-full px-3 py-2 text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
               >
                 {easingOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -173,32 +247,13 @@ export function AnimationPicker({ value, onChange, label, className }: Animation
               </select>
             </div>
 
-            {/* Aperçu */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Aperçu
-              </label>
-              <div className="border border-gray-200 rounded-lg p-4 bg-gray-50 h-20 flex items-center justify-center">
-                <div
-                  className={`w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center text-white text-sm font-medium ${
-                    previewAnimation ? animationTypes.find(a => a.value === previewAnimation)?.class : ''
-                  }`}
-                  style={{
-                    animationDuration: `${value.duration}ms`,
-                    animationDelay: `${value.delay}ms`
-                  }}
-                >
-                  Demo
-                </div>
-              </div>
-            </div>
-
-            <div className="flex justify-end space-x-2">
+            <div className="flex justify-end space-x-2 pt-2 border-t">
               <Button
                 type="button"
-                variant="ghost"
+                variant="outline"
                 size="sm"
                 onClick={() => setIsOpen(false)}
+                className="text-gray-900 hover:bg-gray-50"
               >
                 Fermer
               </Button>

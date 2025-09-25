@@ -192,6 +192,24 @@ export const templates: WebsiteTemplate[] = [
         }
       },
       {
+        id: 'grid-1',
+        type: 'grid',
+        props: {
+          columns: 2,
+          rows: 1,
+          gap: '4',
+          alignItems: 'start',
+          justifyContent: 'start'
+        },
+        styles: {
+          margin: '2rem 0',
+          padding: '2rem',
+          borderRadius: '8px',
+          height: '200px'
+        },
+        children: []
+      },
+      {
         id: 'contact-1',
         type: 'contact',
         props: {

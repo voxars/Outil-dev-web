@@ -84,7 +84,7 @@ export function BuilderToolbar() {
   }
 
   return (
-    <div className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6">
+    <div className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 builder-interface">
       {/* Logo et titre */}
       <div className="flex items-center space-x-4">
         <h1 className="text-xl font-bold text-gray-900">Website Builder</h1>
@@ -142,43 +142,18 @@ export function BuilderToolbar() {
           onClick={handleImport}
           title="Importer un template"
         >
-          <Upload className="h-4 w-4" />
+          <Upload className="h-4 w-4 mr-1" />
+          Importer
         </Button>
 
         <Button
           variant="outline"
           size="sm"
           onClick={handleExport}
-          title="Exporter le template"
+          title="Exporter le code"
         >
-          <Download className="h-4 w-4" />
-        </Button>
-
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setShowSaveModal(true)}
-          title="Sauvegarder le template"
-        >
-          <Download className="h-4 w-4" />
-        </Button>
-
-        <div className="w-px h-6 bg-gray-300 mx-2" />
-
-        <Button
-          variant="outline"
-          size="sm"
-          title="Paramètres du thème"
-        >
-          <Palette className="h-4 w-4" />
-        </Button>
-
-        <Button
-          variant="outline"
-          size="sm"
-          title="Paramètres"
-        >
-          <Settings className="h-4 w-4" />
+          <Download className="h-4 w-4 mr-1" />
+          Exporter
         </Button>
       </div>
 
@@ -191,54 +166,6 @@ export function BuilderToolbar() {
         style={{ display: 'none' }}
       />
 
-      {/* Modal de sauvegarde */}
-      {showSaveModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-96 max-w-[90vw]">
-            <h3 className="text-lg font-semibold mb-4">Sauvegarder le template</h3>
-            
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Nom du template *
-                </label>
-                <input
-                  type="text"
-                  value={templateName}
-                  onChange={(e) => setTemplateName(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Mon super template"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Description
-                </label>
-                <textarea
-                  value={templateDescription}
-                  onChange={(e) => setTemplateDescription(e.target.value)}
-                  rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
-                  placeholder="Description du template..."
-                />
-              </div>
-            </div>
-
-            <div className="flex justify-end space-x-3 mt-6">
-              <Button
-                variant="ghost"
-                onClick={() => setShowSaveModal(false)}
-              >
-                Annuler
-              </Button>
-              <Button onClick={handleSaveTemplate}>
-                Sauvegarder
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 }
