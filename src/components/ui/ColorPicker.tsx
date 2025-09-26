@@ -50,13 +50,16 @@ export function ColorPicker({ value, onChange, label, className }: ColorPickerPr
           variant="outline"
           size="sm"
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center space-x-2 px-3 py-2"
+          className="flex items-center space-x-2 px-3 py-2 bg-white text-purple-700 border-purple-500 hover:bg-purple-50"
         >
           <div
-            className="w-4 h-4 rounded border border-gray-300"
-            style={{ backgroundColor: value }}
+            className="w-4 h-4 rounded border border-gray-400"
+            style={{ 
+              backgroundColor: value,
+              boxShadow: value === '#FFFFFF' ? 'inset 0 0 0 1px #9ca3af' : 'none'
+            }}
           />
-          <Palette className="w-4 h-4" />
+          <Palette className="w-4 h-4 text-purple-600" />
         </Button>
         
         <input
@@ -78,10 +81,13 @@ export function ColorPicker({ value, onChange, label, className }: ColorPickerPr
                 key={color}
                 type="button"
                 onClick={() => handleColorSelect(color)}
-                className={`w-6 h-6 rounded border-2 hover:scale-110 transition-transform ${
-                  value === color ? 'border-gray-900' : 'border-gray-300'
+                className={`color-palette-button w-6 h-6 rounded border-2 hover:scale-110 transition-transform relative ${
+                  value === color ? 'border-purple-600' : 'border-gray-400'
                 }`}
-                style={{ backgroundColor: color }}
+                style={{ 
+                  backgroundColor: color,
+                  boxShadow: color === '#FFFFFF' ? 'inset 0 0 0 1px #e5e7eb' : 'none'
+                }}
                 title={color}
               />
             ))}
@@ -96,7 +102,7 @@ export function ColorPicker({ value, onChange, label, className }: ColorPickerPr
                 type="color"
                 value={customColor}
                 onChange={(e) => setCustomColor(e.target.value)}
-                className="w-full h-8 border border-gray-300 rounded cursor-pointer"
+                className="w-full h-8 border-2 border-purple-300 rounded cursor-pointer bg-white"
               />
               <div className="flex items-center space-x-1">
                 <input
@@ -110,7 +116,7 @@ export function ColorPicker({ value, onChange, label, className }: ColorPickerPr
                   type="button"
                   size="sm"
                   onClick={() => handleColorSelect(customColor)}
-                  className="text-xs px-2 py-1 flex-shrink-0"
+                  className="text-xs px-2 py-1 flex-shrink-0 bg-purple-600 text-white hover:bg-purple-700"
                 >
                   OK
                 </Button>

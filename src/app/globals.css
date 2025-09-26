@@ -164,7 +164,8 @@ body {
 .animate-flip-out { animation: flip-out 0.6s ease-out; }
 .animate-shake { animation: shake 0.5s ease-in-out; }
 
-/* Force l'héritage de couleur pour les composants personnalisés */
+/* Force l'héritage de couleur pour les composants personnalisés - PRIORITÉ MAXIMALE */
+.component-custom-text,
 .component-custom-text h1,
 .component-custom-text h2,
 .component-custom-text h3,
@@ -174,7 +175,49 @@ body {
 .component-custom-text p,
 .component-custom-text span,
 .component-custom-text a,
-.component-custom-text div {
+.component-custom-text div,
+.component-custom-text li,
+.component-custom-text td,
+.component-custom-text th {
+  color: inherit !important;
+}
+
+/* Règles spécifiques pour les composants dans les grilles avec couleur personnalisée */
+.grid-item.component-custom-text,
+.grid-item.component-custom-text *,
+.grid-item .component-custom-text,
+.grid-item .component-custom-text * {
+  color: inherit !important;
+}
+
+/* Règles ultra-spécifiques pour forcer les couleurs personnalisées */
+[style*="color"] .component-custom-text,
+[style*="color"] .component-custom-text *,
+div[style*="color"] .component-custom-text,
+div[style*="color"] .component-custom-text *,
+section[style*="color"] .component-custom-text,
+section[style*="color"] .component-custom-text * {
+  color: inherit !important;
+}
+
+/* Pour les composants avec inline styles */
+.component-custom-text[style*="color"],
+.component-custom-text[style*="color"] * {
+  color: inherit !important;
+}
+
+/* Spécificité maximale pour les couleurs personnalisées */
+html body .component-custom-text,
+html body .component-custom-text h1,
+html body .component-custom-text h2,
+html body .component-custom-text h3,
+html body .component-custom-text h4,
+html body .component-custom-text h5,
+html body .component-custom-text h6,
+html body .component-custom-text p,
+html body .component-custom-text span,
+html body .component-custom-text div,
+html body .component-custom-text li {
   color: inherit !important;
 }
 
@@ -308,24 +351,31 @@ body {
 }
 
 /* Styles pour les composants dans les grilles */
-.grid-item {
+.grid-item:not(.component-custom-text) {
   color: #111827 !important; /* Forcer le texte en gris très foncé */
 }
 
 /* ===== RÈGLES DE VISIBILITÉ GLOBALES ===== */
 /* S'appliquent à tous les composants du site */
 
-/* Grilles - couleurs spécifiques */
-.grid-item * {
+/* Grilles - couleurs spécifiques (sauf si couleur personnalisée) */
+.grid-item:not(.component-custom-text) * {
   color: inherit !important;
 }
 
-.grid-item h1, .grid-item h2, .grid-item h3, .grid-item h4, .grid-item h5, .grid-item h6 {
+.grid-item:not(.component-custom-text) h1, 
+.grid-item:not(.component-custom-text) h2, 
+.grid-item:not(.component-custom-text) h3, 
+.grid-item:not(.component-custom-text) h4, 
+.grid-item:not(.component-custom-text) h5, 
+.grid-item:not(.component-custom-text) h6 {
   color: #111827 !important;
   font-weight: 600;
 }
 
-.grid-item p, .grid-item span, .grid-item div {
+.grid-item:not(.component-custom-text) p, 
+.grid-item:not(.component-custom-text) span, 
+.grid-item:not(.component-custom-text) div {
   color: #374151 !important;
 }
 
@@ -379,23 +429,54 @@ label {
 }
 
 /* Styles spécifiques pour les boutons de l'interface */
-.builder-interface button[class*="outline"],
-.builder-interface button.inline-flex,
-.property-panel button,
-.component-library button {
+.builder-interface button[class*="outline"]:not(.color-palette-button),
+.builder-interface button.inline-flex:not(.color-palette-button),
+.property-panel button:not(.color-palette-button),
+.component-library button:not(.color-palette-button) {
   color: rgb(124 58 237) !important; /* purple-700 */
   background: white !important;
   border-color: rgb(168 85 247) !important; /* purple-500 */
 }
 
-.builder-interface button[class*="outline"]:hover,
-.builder-interface button.inline-flex:hover,
-.property-panel button:hover,
-.component-library button:hover {
+.builder-interface button[class*="outline"]:hover:not(.color-palette-button),
+.builder-interface button.inline-flex:hover:not(.color-palette-button),
+.property-panel button:hover:not(.color-palette-button),
+.component-library button:hover:not(.color-palette-button) {
   color: rgb(88 28 135) !important; /* purple-800 */
   background: rgb(243 232 255) !important; /* purple-50 */
   border-color: rgb(124 58 237) !important; /* purple-700 */
 }
+
+/* Styles spécifiques pour les ColorPickers */
+.builder-interface input[type="color"] {
+  background: white !important;
+  border: 2px solid rgb(196 181 253) !important; /* purple-300 */
+  border-radius: 4px !important;
+}
+
+.builder-interface input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 2px !important;
+  border-radius: 2px !important;
+}
+
+.builder-interface input[type="color"]::-webkit-color-swatch {
+  border: 1px solid rgb(156 163 175) !important; /* gray-400 */
+  border-radius: 2px !important;
+}
+
+/* Boutons de couleur dans la palette - préserver les couleurs de fond */
+.color-palette-button {
+  color: transparent !important;
+  padding: 0 !important;
+  min-width: 1.5rem !important;
+  min-height: 1.5rem !important;
+}
+
+.color-palette-button:hover {
+  color: transparent !important;
+}
+
+
 
 /* ===== LIENS ===== */
 a {

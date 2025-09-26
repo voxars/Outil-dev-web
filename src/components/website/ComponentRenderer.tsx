@@ -140,9 +140,12 @@ export function ComponentRenderer({
 
   // Styles pour les éléments enfants (hérite de la couleur du parent)
   const getTextStyles = () => {
-    return {
-      color: styles?.textColor || 'inherit'
+    if (styles?.textColor) {
+      return {
+        color: styles.textColor
+      }
     }
+    return {}
   }
 
   // Classes pour forcer l'héritage de couleur avec fallback noir
@@ -270,12 +273,12 @@ export function ComponentRenderer({
         if (inGrid) {
           return (
             <div 
-              className={`${baseClasses} text-gray-900`} 
+              className={`${baseClasses} ${getTextClasses()}`} 
               onClick={onClick}
               style={customStyles}
             >
-              <div className="text-center">
-                <h3 className="text-lg font-bold mb-4 text-gray-900">{(props.title as string)}</h3>
+              <div className="text-center" style={getTextStyles()}>
+                <h3 className="text-lg font-bold mb-4">{(props.title as string)}</h3>
                 <div className="space-y-3">
                   {(props.services as Service[])?.slice(0, 3).map((service: { title: string; description: string; icon: string }, index: number) => (
                     <div key={index} className="text-left">
@@ -284,8 +287,8 @@ export function ComponentRenderer({
                           <span className="text-blue-600 text-sm">⭐</span>
                         </div>
                         <div>
-                          <h4 className="font-semibold text-gray-900 text-sm">{service.title}</h4>
-                          <p className="text-gray-600 text-xs mt-1">{service.description}</p>
+                          <h4 className="font-semibold text-sm">{service.title}</h4>
+                          <p className="text-xs mt-1 opacity-75">{service.description}</p>
                         </div>
                       </div>
                     </div>
@@ -312,7 +315,7 @@ export function ComponentRenderer({
                       <span className="text-blue-600 text-xl">⭐</span>
                     </div>
                     <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
-                    <p className="text-gray-600">{service.description}</p>
+                    <p className="opacity-75">{service.description}</p>
                   </div>
                 ))}
               </div>
@@ -322,9 +325,13 @@ export function ComponentRenderer({
 
       case 'portfolio':
         return (
-          <section className={`py-16 px-6 ${baseClasses}`} onClick={onClick}>
-            <div className="max-w-6xl mx-auto">
-              <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">{(props.title as string)}</h2>
+          <section 
+            className={`py-16 px-6 ${baseClasses}`} 
+            onClick={onClick}
+            style={customStyles}
+          >
+            <div className={`max-w-6xl mx-auto ${getTextClasses()}`} style={getTextStyles()}>
+              <h2 className="text-3xl font-bold text-center mb-12">{(props.title as string)}</h2>
               <div className="grid md:grid-cols-3 gap-8">
                 {(props.projects as Project[])?.map((project: { title: string; description: string; image: string; url: string }, index: number) => (
                   <div key={index} className="group cursor-pointer">
@@ -333,8 +340,8 @@ export function ComponentRenderer({
                         <span className="text-white font-semibold">Image</span>
                       </div>
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">{project.title}</h3>
-                    <p className="text-gray-600">{project.description}</p>
+                    <h3 className="text-lg font-semibold mb-2">{project.title}</h3>
+                    <p className="opacity-75">{project.description}</p>
                   </div>
                 ))}
               </div>
@@ -357,7 +364,7 @@ export function ComponentRenderer({
                     <div className="flex items-center mb-4">
                       <div className="w-12 h-12 bg-gray-200 rounded-full mr-4"></div>
                       <div>
-                        <h4 className="font-semibold text-gray-900">{testimonial.name}</h4>
+                        <h4 className="font-semibold">{testimonial.name}</h4>
                         <div className="flex text-yellow-400">
                           {Array.from({ length: testimonial.rating }).map((_, i) => (
                             <span key={i}>⭐</span>
@@ -365,7 +372,7 @@ export function ComponentRenderer({
                         </div>
                       </div>
                     </div>
-                    <p className="text-gray-600 italic">&quot;{testimonial.text}&quot;</p>
+                    <p className="opacity-75 italic">&quot;{testimonial.text}&quot;</p>
                   </div>
                 ))}
               </div>
